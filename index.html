@@ -2,79 +2,302 @@
 <html>
 
 <head>
-    <title>Calorie Calculator</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <title>Calorie Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .calculator-heading {
+      font-size: 36px;
+      text-align: center;
+      margin-top: 0px;
+      margin-bottom: 20px;
+      padding: 20px 0;
+    }
+
+    .calculator {
+      max-width: 600px;
+      margin: 0 auto;
+      margin-top: 50px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .calculator-label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .calculator-input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .calculator-input[type="number"] {
+      padding-right: 30px;
+    }
+
+    .calculator-input-group {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .calculator-input-wrapper {
+      flex-basis: calc(50% - 10px);
+    }
+
+    .calculator-input {
+      width: 100%;
+    }
+
+    .calculator-select {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      background-color: #fff;
+    }
+
+    .calculator-radio-group {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .calculator-radio-label {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .calculator-radio {
+      margin-right: 5px;
+    }
+
+    .calculator-radio-text {
+      font-size: 18px;
+    }
+
+    .calculator-description {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .calculator-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculator-button:hover {
+      background-color: #3e8e41;
+    }
+
+    .calculator-results {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+    }
+
+    .calculator-subheading {
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+
+    .calculator-result {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .calculator-result:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Styles for mobile */
+    @media (max-width: 600px) {
+      .calculator {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .calculator-heading {
+        font-size: 24px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .calculator-form {
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+      }
+
+      .calculator-inputs {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      .calculator-input {
+        margin-bottom: 10px;
+      }
+
+      .calculator-radio-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .calculator-radio-label {
+        flex-basis: 48%;
+      }
+
+      .calculator-button {
+        margin-bottom: 20px;
+      }
+
+      .calculator-results {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+      }
+
+      .calculator-subheading {
+        font-size: 24px;
+        margin-top: 0;
+        margin-bottom: 30px;
+      }
+
+      .calculator-result {
+        font-size: 18px;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      .calculator-result.calories {
+        font-size: 48px;
+        font-weight: bold;
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+
+      .calculator-result.grams {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .calculator {
+        background-color: red;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div id="app">
-        <div class="calculator">
-            <h1 class="calculator-heading">Calorie Calculator</h1>
-            <form class="calculator-form" @submit.prevent="calculateCalories">
-                <div class="calculator-radio-group">
-                    <label class="calculator-radio-label">
-                      <input class="calculator-radio" type="radio" v-model="unitSystem" value="imperial">
-                      <span class="calculator-radio-text">Imperial</span>
-                    </label>
-                    <label class="calculator-radio-label">
-                      <input class="calculator-radio" type="radio" v-model="unitSystem" value="metric">
-                      <span class="calculator-radio-text">Metric</span>
-                    </label>
-                  </div>
-                <br>
-                <div class="calculator-input-group">
-                    <div class="calculator-input-wrapper">
-                      <label class="calculator-label" for="weight">Weight:</label>
-                      <input class="calculator-input" type="number" id="weight" v-model="inputWeight">
-                    </div>
-                    <div class="calculator-input-wrapper">
-                      <label class="calculator-label" for="height">Height:</label>
-                      <input class="calculator-input" type="number" id="height" v-model="inputHeight">
-                    </div>
-                  </div>
-                  <div class="calculator-input-group">
-                    <div class="calculator-input-wrapper">
-                      <label class="calculator-label" for="age">Age:</label>
-                      <input class="calculator-input" type="number" id="age" v-model="age">
-                    </div>
-                    <div class="calculator-input-wrapper">
-                      <label class="calculator-label" for="gender">Gender:</label>
-                      <select class="calculator-select" id="gender" v-model="gender">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                      </select>
-                    </div>
-                  </div>
-                <label class="calculator-label" for="activityLevel">Activity Level:</label>
-                <select class="calculator-select" id="activityLevel" v-model="activityLevel">
-                    <option value="sedentary">Sedentary</option>
-                    <option value="lightlyActive">Lightly Active</option>
-                    <option value="moderatelyActive">Moderately Active</option>
-                    <option value="highlyActive">Highly Active</option>
-                </select>
-                <div class="calculator-description">{{ activityLevelDescription }}</div>
-                <br>
-                <br>
-                <label class="calculator-label" for="fitnessGoal">Fitness Goal:</label>
-                <select class="calculator-select" id="fitnessGoal" v-model="fitnessGoal">
-                    <option value="loseWeight">Lose Weight</option>
-                    <option value="maintainWeight">Maintain Weight</option>
-                    <option value="gainWeight">Gain Weight</option>
-                </select>
-                <br>
-                <button class="calculator-button" type="submit">Calculate</button>
-            </form>
-            <div v-if="calories" class="calculator-results">
-                <h2 class="calculator-subheading">Target Calorie Intake:</h2>
-                <p class="calculator-result">Calories: {{ calories.calories }}</p>
-                <p class="calculator-result">Protein: {{ calories.protein }}g</p>
-                <p class="calculator-result">Fat: {{ calories.fat }}g</p>
-                <p class="calculator-result">Carbs: {{ calories.carbs }}g</p>
-            </div>
+  <div id="app">
+    <div class="calculator">
+      <h1 class="calculator-heading">Calorie Calculator</h1>
+      <form class="calculator-form" @submit.prevent="calculateCalories">
+        <div class="calculator-radio-group">
+          <label class="calculator-radio-label">
+            <input class="calculator-radio" type="radio" v-model="unitSystem" value="imperial">
+            <span class="calculator-radio-text">Imperial</span>
+          </label>
+          <label class="calculator-radio-label">
+            <input class="calculator-radio" type="radio" v-model="unitSystem" value="metric">
+            <span class="calculator-radio-text">Metric</span>
+          </label>
         </div>
+        <br>
+        <div class="calculator-input-group">
+          <div class="calculator-input-wrapper">
+            <label class="calculator-label" for="weight">Weight ({{ weightUnits }}):</label>
+            <input class="calculator-input" type="number" id="weight" v-model="inputWeight">
+          </div>
+          <div class="calculator-input-wrapper">
+            <label class="calculator-label" for="height">Height ({{ heightUnits }}):</label>
+            <input class="calculator-input" type="number" id="height" v-model="inputHeight">
+          </div>
+        </div>
+        <div class="calculator-input-group">
+          <div class="calculator-input-wrapper">
+            <label class="calculator-label" for="age">Age:</label>
+            <input class="calculator-input" type="number" id="age" v-model="age">
+          </div>
+          <div class="calculator-input-wrapper">
+            <label class="calculator-label" for="gender">Gender:</label>
+            <select class="calculator-select" id="gender" v-model="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+        <label class="calculator-label" for="activityLevel">Activity Level:</label>
+        <select class="calculator-select" id="activityLevel" v-model="activityLevel">
+          <option value="sedentary">Sedentary</option>
+          <option value="lightlyActive">Lightly Active</option>
+          <option value="moderatelyActive">Moderately Active</option>
+          <option value="highlyActive">Highly Active</option>
+        </select>
+        <div class="calculator-description">{{ activityLevelDescription }}</div>
+        <br>
+        <br>
+        <label class="calculator-label" for="fitnessGoal">Fitness Goal:</label>
+        <select class="calculator-select" id="fitnessGoal" v-model="fitnessGoal">
+          <option value="loseWeight">Lose Weight</option>
+          <option value="maintainWeight">Maintain Weight</option>
+          <option value="gainWeight">Gain Weight</option>
+        </select>
+        <br>
+        <button class="calculator-button" type="submit">Calculate</button>
+      </form>
+      <div v-if="calories" class="calculator-results">
+        <h2 class="calculator-subheading">Target Calorie Intake:</h2>
+        <p class="calculator-result calories">Calories: {{ calories.calories }}</p>
+        <p class="calculator-result grams">Protein: {{ calories.protein }}g</p>
+        <p class="calculator-result grams">Fat: {{ calories.fat }}g</p>
+        <p class="calculator-result grams">Carbs: {{ calories.carbs }}g</p>
+      </div>
     </div>
-    <script src="app.js"></script>
+  </div>
+  <script src="app.js"></script>
 </body>
 
 </html>

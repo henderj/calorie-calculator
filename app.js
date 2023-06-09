@@ -13,6 +13,12 @@ new Vue({
         unitSystem: 'imperial',
     },
     computed: {
+        weightUnits() {
+            return this.unitSystem === 'imperial' ? 'lbs' : 'kg';
+        },
+        heightUnits() {
+            return this.unitSystem === 'imperial' ? 'in' : 'cm';
+        },
         activityLevelDescription() {
           switch (this.activityLevel) {
             case 'sedentary':
@@ -85,5 +91,16 @@ new Vue({
                 carbs: targetCarbs.toFixed(0)
             };
         }
+    },
+    watch: {
+      unitSystem(newVal, oldVal) {
+        if (oldVal === 'imperial' && newVal === 'metric') {
+          this.inputWeight = Math.round(this.inputWeight / 2.20462);
+          this.inputHeight = Math.round(this.inputHeight / 0.393701);
+        } else if (oldVal === 'metric' && newVal === 'imperial') {
+          this.inputWeight = Math.round(this.inputWeight * 2.20462);
+          this.inputHeight = Math.round(this.inputHeight * 0.393701);
+        }
+      }
     }
 });
