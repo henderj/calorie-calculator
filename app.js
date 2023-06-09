@@ -7,11 +7,27 @@ new Vue({
         height: null,
         age: 19,
         gender: 'male',
-        activityLevel: 'extraActive',
+        activityLevel: 'highlyActive',
         fitnessGoal: 'maintainWeight',
         calories: null,
         unitSystem: 'imperial',
     },
+    computed: {
+        activityLevelDescription() {
+          switch (this.activityLevel) {
+            case 'sedentary':
+              return 'Works a desk job, very little activity outside of lifting';
+            case 'lightlyActive':
+              return 'Works a desk job, takes pet for a walk most days in addition to lifting';
+            case 'moderatelyActive':
+              return 'Works as a full-time waitress, occasionally plays tennis in addition to lifting';
+            case 'highlyActive':
+              return 'Works as a construction worker, regular hiking in addition to lifting';
+            default:
+              return '';
+          }
+        }
+      },
     methods: {
         calculateCalories() {
             // Convert input values to metric units if the user selects imperial units
@@ -41,10 +57,7 @@ new Vue({
                 case 'moderatelyActive':
                     activityFactor = 1.55;
                     break;
-                case 'veryActive':
-                    activityFactor = 1.725;
-                    break;
-                case 'extraActive':
+                case 'highlyActive':
                     activityFactor = 2.2;
                     break;
             }
