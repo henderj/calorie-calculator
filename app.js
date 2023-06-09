@@ -48,9 +48,9 @@ new Vue({
             // Calculate target calorie intake based on formulas in FITNESS COACHING.pdf
             let bmr = 0;
             if (this.gender === 'male') {
-                bmr = 10 * this.weight + 6.25 * this.height - 5 * this.age + 5;
+                bmr = (10 * this.weight) + (6.25 * this.height) - (5 * this.age) + 5;
             } else {
-                bmr = 447.593 + (9.247 * this.weight) + (3.098 * this.height) - (4.330 * this.age);
+                bmr = (10 * this.weight) + (6.25 * this.height) - (5 * this.age) - 161;
             }
             let activityFactor = 0;
             switch (this.activityLevel) {
@@ -69,20 +69,28 @@ new Vue({
             }
             let tdee = bmr * activityFactor;
             let calorieAdjustment = 0;
+            let fatAdjustment = 0.3;
+            let proteinAdjustment = 1.4;
             switch (this.fitnessGoal) {
                 case 'loseWeight':
                     calorieAdjustment = -0.2;
+                    fatAdjustment = 0.35;
+                    proteinAdjustment = 1.2;
                     break;
                 case 'maintainWeight':
                     calorieAdjustment = 0;
+                    fatAdjustment = 0.3;
+                    proteinAdjustment = 1.4;
                     break;
                 case 'gainWeight':
                     calorieAdjustment = 0.15;
+                    fatAdjustment = 0.2;
+                    proteinAdjustment = 1.6;
                     break;
             }
             let targetCalories = tdee + calorieAdjustment * tdee;
-            let targetProtein = this.weight * 2.2 * 1.2;
-            let targetFat = this.weight * 2.2 * 0.3;
+            let targetProtein = this.weight * 2.2 * proteinAdjustment;
+            let targetFat = targetCalories * fatAdjustment / 9;
             let targetCarbs = (targetCalories - (targetProtein * 4) - (targetFat * 9)) / 4;
             this.calories = {
                 calories: targetCalories.toFixed(0),
